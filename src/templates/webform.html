@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+   {% extends "base.html" %}
+   {% import "bootstrap/wtf.html" as wtf %}
+    
+   {% block title %}Flasky web form{% endblock %}
+ 
+   {% block page_content %}   
+     {% for message in get_flashed_messages() %}
+     <div class="alert alert-warning">
+         <button type="button" class="close" data-dismiss="alert">&times;</button>
+         {{ message }}
+         </div>
+     
+     {%endfor%}
+     <div class="page-header">
+         <h1>Hello {% if name %}{{name}}{%else%}Stranger{%endif%}!</h1>
+      </div>   
+    {{wtf.quick_form(form)}}
+    {% endblock %}
+</html>
