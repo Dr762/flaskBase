@@ -1,6 +1,6 @@
 # flask db and email demo
 # I have combined db adding ans sending emails demo as it has been done in the book
-# I couldn't get any emails but left this for the future. Just in case
+# Before run setup MAIL_USERNAME,MAIL_PASSWORD
 import os
 from flask import Flask
 from flask_mail import Mail
@@ -15,17 +15,17 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask import session
 from flask import url_for
-from threading import Thread
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = "SS-217."
 app.config['FLASKY_MAIL_SENDER'] = 'Alex Bondar <abondar1992@gmail.com>'
-app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
+app.config['FLASKY_ADMIN'] =app.config['MAIL_USERNAME'] #os.environ.get('FLASKY_ADMIN')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SECRET_KEY'] = 'fffe16hff'
@@ -67,11 +67,10 @@ def send_async_email(app, msg):
 
 def send_email(to, subject, template, **kwargs):
     msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + subject,
-                  sender=app.config['FLASKY_MAIL_SENDER'])
+                  sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
     msg.body = render_template(template + '.txt', **kwargs)
-    thr = Thread(target=send_async_email, args=[app, msg])
-    thr.start()
-    mail.send(thr)
+    msg.body = render_template(template + '.html', **kwargs)
+    mail.send(msg)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -85,7 +84,7 @@ def db_form():
             session['known'] = False
             if app.config['FLASKY_ADMIN']:
                 send_email(app.config['FLASKY_ADMIN'], 'New User',
-                           'templates/new_user.txt', user=user)
+                           'mail/new_user', user=user)
         else:
             session['known'] = True
         session['name'] = form.name.data

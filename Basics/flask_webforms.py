@@ -1,5 +1,5 @@
-## we do an app with web forms
-## I had to leave moment for compatibilitywith base demo
+# we do an app with web forms
+# I had to leave moment for compatibilitywith base demo
 from flask import Flask
 from flask import render_template
 from flask_bootstrap import Bootstrap

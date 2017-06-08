@@ -1,9 +1,5 @@
-##basic flask example
-##we use some bootstrap for html but I believe any js shit can be used
-
-__author__ = "alex"
-__date__ = "$Sep 8, 2015 11:23:32 AM$"
-
+# basic flask example
+# we use some bootstrap for html but I believe any js shit can be used
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -13,7 +9,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
 
-##flask app instance
+# flask app instance
 app = Flask(__name__)
 
 
