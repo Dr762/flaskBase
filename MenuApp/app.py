@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+    from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Restaurant, MenuItem
 
 app = Flask(__name__)
-engine = create_engine('mysql://root:alex24@172.17.0.2/catalog')
+engine = create_engine('mysql://root:alex24@localhost/catalog')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
