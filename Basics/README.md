@@ -23,8 +23,4 @@ GET /redirect - redirect to wikipedia
 1. Install via pip all required dependencies
 
 
-2. Run
-```
-python <app-name>.py
-
-```
+2. Run ``` python <app-name>.py ```
